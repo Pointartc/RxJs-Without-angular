@@ -3,7 +3,7 @@ import {filter, interval, map, scan, take} from 'rxjs'
 const btn = document.getElementById('interval');
 const rxjsBtn = document.getElementById('rxjs');
 const btnCant = document.getElementById('intervalCant');
-// const rxjsBtnCant = document.getElementById('rxjsCant');
+const rxjsBtnCant = document.getElementById('rxjsCant');
 
 const display = document.querySelector('#problem .result');
 // const displayCant = document.querySelector('#problem .resultCant');
@@ -71,4 +71,20 @@ rxjsBtn.addEventListener('click', () => {
         .subscribe(res => {
             display.textContent = res.join(' ');
         }, null, () => rxjsBtn.disablet = false)
+})
+
+rxjsBtnCant.addEventListener('click', () => {
+    rxjsBtnCant.disablet = true;
+    interval(500)
+        .pipe(
+            take(people.length),
+            filter(v => people[v].age < 17),
+            map(v => people[v].name),
+            scan((acc, v) => acc.concat(v), [])
+        )
+        .subscribe(res => {
+            display.textContent = res.join(' ');
+        }, null, () => {
+            rxjsBtnCant.disablet = false
+        })
 })
